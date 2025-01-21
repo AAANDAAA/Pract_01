@@ -4,15 +4,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 
-import static java.nio.file.StandardOpenOption.CREATE;
-public class PersonReader {
-
-
-
+public class ProductReader {
+    public static void main(String[] args) {
         /**
          * @param args the command line arguments
          */
-        public static void main(String[] args)
         {
 
             JFileChooser chooser = new JFileChooser();
@@ -23,11 +19,6 @@ public class PersonReader {
         /*
 
         Here is the data file we are reading:
-        000001, Bilbo, Baggins, Esq., 1060
-        000002, Frodo, Baggins, Esq., 1120
-        000003, Samwise, Gamgee, Esq., 1125
-        000004, Peregrin, Took, Esq., 1126
-        000005, Meridoc, Brandybuck, Esq., 1126
 
         */
 
@@ -114,5 +105,4 @@ public class PersonReader {
         }
 
     }
-
-
+}
