@@ -13,7 +13,7 @@ public class PersonGenerator {
         ArrayList <String> people = new ArrayList<>();
         Scanner in = new Scanner(System.in);
 
-        File workingDirectory = new File("/Users/abishek/Desktop/compP2/Practicum_01/src/src");
+        File workingDirectory = new File("user.dir");
         Path file = Paths.get(workingDirectory.getPath() + "\\src\\personData.txt");
 
 
