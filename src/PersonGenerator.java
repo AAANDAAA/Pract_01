@@ -10,12 +10,12 @@ import java.util.Scanner;
 public class PersonGenerator {
     public static void main(String[] args) {
 
-        ArrayList <String> people = new ArrayList<>();
+        ArrayList<Person> people = new ArrayList<>();
         Scanner in = new Scanner(System.in);
 
-        File workingDirectory = new File("user.dir");
-        Path file = Paths.get(workingDirectory.getPath() +"_personData.txt");
-
+        // Get the working directory
+        String workingDirectory = System.getProperty("user.dir");
+        Path file = Paths.get(workingDirectory, "personData.txt"); // Create the path for the file
 
         boolean doneInput = false;
         String ID = "";
@@ -25,46 +25,38 @@ public class PersonGenerator {
         int YOB = 0;
         String record = "";
 
-        //create a loop to input person data
+        // Loop to input person data
         do {
             ID = SafeInput.getNonZeroLenString(in, "Enter your ID [000001] ");
             firstName = SafeInput.getNonZeroLenString(in, "Enter your First Name ");
             lastName = SafeInput.getNonZeroLenString(in, "Enter your Last name ");
             title = SafeInput.getNonZeroLenString(in, "Enter your title ");
             YOB = SafeInput.getRangedInt(in, "Enter your year of birth ", 1000, 9999);
-            record = String.format("%-10s %-15s %-15s %-25s %-10s", ID, firstName, lastName, title, YOB);
+            record = String.format("%-10s %-15s %-15s %-25s %-10d", ID, firstName, lastName, title, YOB);
             System.out.println(record);
-            people.add(record);
+
+            Person person = new Person(ID, firstName, lastName, title, YOB);
+            people.add(person);
 
             doneInput = SafeInput.getYNConfirm(in, "Are you done? [Y/N]");
+        } while (!doneInput);
+
+        // Print the people details
+        System.out.println(String.format("%-10s %-15s %-15s %-25s %-10s", "ID#", "First Name", "Last Name", "Title", "YOB"));
+        for (Person p : people) {
+            System.out.println(String.format("%-10s %-15s %-15s %-25s %-10d", p.getID(), p.getFirstName(), p.getLastName(), p.getTitle(), p.getYOB()));
         }
-        while (!doneInput);
-        System.out.println(String.format("%-10s %-15s %-15s %-25s %-10s", "ID#", "First Name", "Last Name", "title", "YOB"));
 
-        for(String p:people)
-            System.out.println(p);
-
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file.toFile())))
-        {
-
-            // Finally can write the file LOL!
-
-            for( String rec : people)
-            {
-                writer.write(rec, 0, rec.length());  // stupid syntax for write rec
-                // 0 is where to start (1st char) the write
-                // rec. length() is how many chars to write (all)
-                writer.newLine();  // adds the new line
-
+        // Write the data to a file
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file.toFile()))) {
+            for (Person p : people) {
+                writer.write(p.toCSV());  // Write each person's CSV representation
+                writer.newLine();
             }
-            writer.close(); // must close the file to seal it and flush buffer
-            System.out.println("Data file written!");
-        }
-        catch (IOException e)
-        {
+            System.out.println("Data saved to file!");
+        } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 }
 
