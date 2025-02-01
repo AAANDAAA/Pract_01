@@ -1,0 +1,2 @@
+000001,abi,hahaha,21.91
+00002,reg,bu bububu,200.91
